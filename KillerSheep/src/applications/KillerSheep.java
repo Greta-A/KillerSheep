@@ -19,7 +19,7 @@ import visual.statik.sampled.ContentFactory;
 
 public class KillerSheep extends JApplication
 {
-
+	
 	public KillerSheep(int width, int height) {
 		super(width, height);
 	}
