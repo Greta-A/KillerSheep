@@ -71,7 +71,7 @@ public class KillerSheep extends JApplication
 
     // Add Berrnstein
     Content bernstein = factory.createContent("b2.png", 4, false);
-    Bernstein b = new Bernstein(bernstein, 3, 40.0, 400.0);
+    Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
     stage.add(b);
 
     // Make bernstein movable

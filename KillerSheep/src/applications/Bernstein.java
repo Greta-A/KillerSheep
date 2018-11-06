@@ -49,19 +49,19 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
     // Somebody please refactor this to look less ugly. thanks.
     if (x < 0)
     {
-      x = 40;
+      x = 30;
     }
-    if (x > 1050)
+    if (x > 1100)
     {
-      x = 1050;
+      x = 1100;
     }
     if (y < 0)
     {
       y = 4.0;
     }
-    if (y > 450)
+    if (y > 455)
     {
-      y = 445;
+      y = 455;
     }
 
   }
