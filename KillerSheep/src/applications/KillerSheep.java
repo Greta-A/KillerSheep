@@ -1,13 +1,11 @@
 package applications;
 
-import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 import app.JApplication;
 import io.ResourceFinder;
@@ -31,6 +29,7 @@ public class KillerSheep extends JApplication
   {
     // variable declarations
     JPanel contentPane;
+    JButton start;
     JLabel instructions;
     ResourceFinder finder;
     BufferedImageOpFactory opFactory;
@@ -41,7 +40,13 @@ public class KillerSheep extends JApplication
     contentPane = (JPanel) getContentPane();
     contentPane.setLayout(null);
 
-    Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+    // Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+
+    // Start Button
+    start = new JButton("Start!");
+    start.setHorizontalAlignment(SwingConstants.CENTER);
+    start.setSize(100, 100);
+    start.setLocation(100, 600);
 
     // create the instructions panel
     instructions = new JLabel();
@@ -49,9 +54,9 @@ public class KillerSheep extends JApplication
         "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
     instructions.setFont(new Font("Serif", Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
-    instructions.setBorder(border);
-    instructions.setSize(500, 75);
-    instructions.setLocation(350, 600);
+    // instructions.setBorder(border);
+    instructions.setSize(1000, 80);
+    instructions.setLocation(110, 600);
 
     // setup for background grass image
     finder = ResourceFinder.createInstance(resources.Marker.class);
@@ -81,6 +86,7 @@ public class KillerSheep extends JApplication
     view.setBounds(0, 0, this.width, 600);
     contentPane.add(view);
     contentPane.add(instructions);
+    // contentPane.add(start);
     stage.start();
   }
 
