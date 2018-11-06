@@ -78,6 +78,12 @@ public class KillerSheep extends JApplication
     Content bernstein = factory.createContent("b2.png", 4, false);
     Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
     stage.add(b);
+    
+    // Add paddock
+    Content paddock = factory.createContent("paddock.png", 4, false);
+    Paddock p = new Paddock(paddock, 900.0, 0.0);
+    p.setScale(1.5);
+    stage.add(p);
 
     // Make bernstein movable
     stage.addKeyListener(b);
