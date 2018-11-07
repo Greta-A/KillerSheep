@@ -84,7 +84,6 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
         KillerSheep.intersectWithPaddock();
       }
     }
-
     setLocation(x, y);
   }
 

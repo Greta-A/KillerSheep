@@ -3,7 +3,12 @@ package applications;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,6 +16,9 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import app.JApplication;
+import auditory.sampled.BoomBox;
+import auditory.sampled.BufferedSound;
+import auditory.sampled.BufferedSoundFactory;
 import io.ResourceFinder;
 import visual.VisualizationView;
 import visual.dynamic.described.Stage;
@@ -64,6 +72,27 @@ public class KillerSheep extends JApplication implements ActionListener
     ResourceFinder finder = ResourceFinder.createInstance(resources.Marker.class);
     ContentFactory factory = new ContentFactory(finder);
 
+    // Sheep Sound
+    BufferedSoundFactory sf = new BufferedSoundFactory(finder);
+    BufferedSound baaing;
+
+    try
+    {
+      AudioInputStream stream;
+      stream = AudioSystem.getAudioInputStream(finder.findURL("sheep-sound.wav"));
+      baaing = sf.createBufferedSound(stream);
+
+      auditory.sampled.Content c = baaing;
+      BoomBox box = new BoomBox(c);
+      box.start(true);
+
+    }
+    catch (IOException | UnsupportedAudioFileException | NullPointerException
+        | LineUnavailableException e)
+    {
+      e.printStackTrace();
+    }
+
     // Set up the stage with the grass background
     stage = new Stage(1);
     Content grass = factory.createContent("grass.png", 3, false);
@@ -102,6 +131,7 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     KillerSheep app = new KillerSheep(1200, 700);
     invokeInEventDispatchThread(app);
+
   }
 
   public static void intersectWithPaddock()
