@@ -33,6 +33,8 @@ public class KillerSheep extends JApplication implements ActionListener
   private static JLabel instructions;
   private JTextArea blank;
   private static Stage stage;
+  private static Content bernstein;
+  private static Bernstein b;
 
   public KillerSheep(int width, int height)
   {
@@ -99,8 +101,8 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.add(grass);
 
     // Add Bernstein
-    Content bernstein = factory.createContent("b2.png", 4, false);
-    Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
+    bernstein = factory.createContent("b2.png", 4, false);
+    b = new Bernstein(bernstein, 3, 30.0, 450.0);
 
     // Add paddock
     Content paddock = factory.createContent("paddock.png", 4, false);
@@ -138,6 +140,10 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     instructions.setText("You Win!");
     start.setVisible(false);
+    stage.stop();
+    stage.remove(b);
+    b = new Bernstein(bernstein, 3, 1000.0, 0.0);
+    stage.add(b);
   }
 
   @Override
