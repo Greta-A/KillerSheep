@@ -2,8 +2,10 @@ package applications;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Iterator;
 
 import visual.dynamic.described.RuleBasedSprite;
+import visual.dynamic.described.Sprite;
 import visual.statik.sampled.TransformableContent;
 
 public class Bernstein extends RuleBasedSprite implements KeyListener
@@ -69,6 +71,20 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   @Override
   public void handleTick(int arg0)
   {
+
+    Iterator<Sprite> i;
+    Sprite paddock;
+
+    i = antagonists.iterator();
+    while (i.hasNext())
+    {
+      paddock = i.next();
+      if (intersects(paddock))
+      {
+        KillerSheep.intersectWithPaddock();
+      }
+    }
+
     setLocation(x, y);
   }
 
