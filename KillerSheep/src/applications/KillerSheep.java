@@ -1,6 +1,8 @@
 package applications;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -9,15 +11,19 @@ import javax.swing.SwingConstants;
 
 import app.JApplication;
 import io.ResourceFinder;
-import visual.Visualization;
 import visual.VisualizationView;
 import visual.dynamic.described.Stage;
 import visual.statik.sampled.BufferedImageOpFactory;
 import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
 
-public class KillerSheep extends JApplication
+public class KillerSheep extends JApplication implements ActionListener
 {
+  // variable declarations
+  private JPanel contentPane;
+  private JButton start;
+  private JLabel instructions;
+  private Stage stage;
 
   public KillerSheep(int width, int height)
   {
@@ -27,14 +33,6 @@ public class KillerSheep extends JApplication
   @Override
   public void init()
   {
-    // variable declarations
-    JPanel contentPane;
-    JButton start;
-    JLabel instructions;
-    ResourceFinder finder;
-    BufferedImageOpFactory opFactory;
-    Visualization visualization;
-    VisualizationView view;
 
     // content pane layout should be null
     contentPane = (JPanel) getContentPane();
@@ -44,41 +42,34 @@ public class KillerSheep extends JApplication
 
     // Start Button
     start = new JButton("Start!");
+    start.setFont(new Font("Serif", Font.PLAIN, 20));
     start.setHorizontalAlignment(SwingConstants.CENTER);
-    start.setSize(100, 100);
-    start.setLocation(100, 600);
+    start.setSize(100, 60);
+    start.setLocation(700, 615);
 
     // create the instructions panel
     instructions = new JLabel();
-    instructions.setText(
-        "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
+    instructions.setText("Bernstein is only one click away! \u2192");
     instructions.setFont(new Font("Serif", Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
     // instructions.setBorder(border);
-    instructions.setSize(1000, 80);
-    instructions.setLocation(110, 600);
+    instructions.setSize(880, 85);
+    instructions.setLocation(110, 610);
 
-    // setup for background grass image
-    finder = ResourceFinder.createInstance(resources.Marker.class);
+    ResourceFinder finder = ResourceFinder.createInstance(resources.Marker.class);
     ContentFactory factory = new ContentFactory(finder);
-    opFactory = BufferedImageOpFactory.createFactory();
-
-    /**
-     * Content grass = factory.createContent("grass.png", 3); visualization = new Visualization();
-     * grass.setLocation(0, 0); // grass.setBufferedImageOp(opFactory.createBlurOp(3));
-     * visualization.add(grass);
-     */
+    BufferedImageOpFactory opFactory = BufferedImageOpFactory.createFactory();
 
     // Set up the stage with the grass background
-    Stage stage = new Stage(50);
+    stage = new Stage(50);
     Content grass = factory.createContent("grass.png", 3, false);
     stage.add(grass);
 
-    // Add Berrnstein
+    // Add Bernstein
     Content bernstein = factory.createContent("b2.png", 4, false);
     Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
     stage.add(b);
-    
+
     // Add paddock
     Content paddock = factory.createContent("paddock.png", 4, false);
     Paddock p = new Paddock(paddock, 900.0, 0.0);
@@ -88,18 +79,35 @@ public class KillerSheep extends JApplication
     // Make bernstein movable
     stage.addKeyListener(b);
 
-    view = stage.getView();
+    VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
     contentPane.add(view);
     contentPane.add(instructions);
-    // contentPane.add(start);
+    contentPane.add(start);
     stage.start();
+
+    // start.addActionListener(this);
+
   }
 
   public static void main(String[] args)
   {
     KillerSheep app = new KillerSheep(1200, 700);
     invokeInEventDispatchThread(app);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+    if (e.getSource() == start)
+    {
+      instructions.setText(
+          "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
+      // instructions.setSize(990, 85);
+      start.setVisible(false);
+      stage.start();
+    }
+
   }
 
 }
