@@ -21,8 +21,8 @@ public class KillerSheep extends JApplication implements ActionListener
 {
   // variable declarations
   private JPanel contentPane;
-  private JButton start;
-  private JLabel instructions;
+  private static JButton start;
+  private static JLabel instructions;
   private Stage stage;
 
   public KillerSheep(int width, int height)
@@ -68,16 +68,21 @@ public class KillerSheep extends JApplication implements ActionListener
     // Add Bernstein
     Content bernstein = factory.createContent("b2.png", 4, false);
     Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
-    stage.add(b);
+    
 
     // Add paddock
     Content paddock = factory.createContent("paddock.png", 4, false);
     Paddock p = new Paddock(paddock, 900.0, 0.0);
     p.setScale(1.5);
-    stage.add(p);
 
     // Make bernstein movable
     stage.addKeyListener(b);
+    
+    b.addAntagonist(p);
+    
+    stage.add(b);
+    stage.add(p);
+
 
     VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
@@ -94,6 +99,12 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     KillerSheep app = new KillerSheep(1200, 700);
     invokeInEventDispatchThread(app);
+  }
+  
+  public static void intersectWithPaddock()
+  {
+	  instructions.setText("You Win!");
+	  start.setVisible(false);
   }
 
   @Override
