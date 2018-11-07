@@ -7,13 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import app.JApplication;
 import io.ResourceFinder;
 import visual.VisualizationView;
 import visual.dynamic.described.Stage;
-import visual.statik.sampled.BufferedImageOpFactory;
 import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
 
@@ -23,7 +23,8 @@ public class KillerSheep extends JApplication implements ActionListener
   private JPanel contentPane;
   private static JButton start;
   private static JLabel instructions;
-  private Stage stage;
+  private JTextArea blank;
+  private static Stage stage;
 
   public KillerSheep(int width, int height)
   {
@@ -56,19 +57,21 @@ public class KillerSheep extends JApplication implements ActionListener
     instructions.setSize(880, 85);
     instructions.setLocation(110, 610);
 
+    blank = new JTextArea();
+    blank.setSize(this.width, 600);
+    blank.setEditable(false);
+
     ResourceFinder finder = ResourceFinder.createInstance(resources.Marker.class);
     ContentFactory factory = new ContentFactory(finder);
-    BufferedImageOpFactory opFactory = BufferedImageOpFactory.createFactory();
 
     // Set up the stage with the grass background
-    stage = new Stage(50);
+    stage = new Stage(1);
     Content grass = factory.createContent("grass.png", 3, false);
     stage.add(grass);
 
     // Add Bernstein
     Content bernstein = factory.createContent("b2.png", 4, false);
     Bernstein b = new Bernstein(bernstein, 3, 30.0, 450.0);
-    
 
     // Add paddock
     Content paddock = factory.createContent("paddock.png", 4, false);
@@ -77,21 +80,21 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Make bernstein movable
     stage.addKeyListener(b);
-    
+
     b.addAntagonist(p);
-    
+
     stage.add(b);
     stage.add(p);
 
-
     VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
+    contentPane.add(blank);
     contentPane.add(view);
     contentPane.add(instructions);
     contentPane.add(start);
     stage.start();
-
-    // start.addActionListener(this);
+    stage.stop();
+    start.addActionListener(this);
 
   }
 
@@ -100,11 +103,11 @@ public class KillerSheep extends JApplication implements ActionListener
     KillerSheep app = new KillerSheep(1200, 700);
     invokeInEventDispatchThread(app);
   }
-  
+
   public static void intersectWithPaddock()
   {
-	  instructions.setText("You Win!");
-	  start.setVisible(false);
+    instructions.setText("You Win!");
+    start.setVisible(false);
   }
 
   @Override
@@ -112,11 +115,12 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     if (e.getSource() == start)
     {
+      stage.start();
       instructions.setText(
           "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
-      // instructions.setSize(990, 85);
+      instructions.setSize(990, 85);
       start.setVisible(false);
-      stage.start();
+      blank.setVisible(false);
     }
 
   }
