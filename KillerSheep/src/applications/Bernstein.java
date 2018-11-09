@@ -79,6 +79,10 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
     while (i.hasNext())
     {
       paddock = i.next();
+      /*
+       * if (i.next() instanceof Paddock) { }
+       * 
+       */
       if (intersects(paddock))
       {
         KillerSheep.intersectWithPaddock();
@@ -96,4 +100,15 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   public void keyReleased(KeyEvent e)
   {
   }
+
+  public double getX()
+  {
+    return x;
+  }
+
+  public double getY()
+  {
+    return y;
+  }
+
 }

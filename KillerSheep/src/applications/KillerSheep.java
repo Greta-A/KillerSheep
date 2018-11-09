@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -21,6 +22,7 @@ import auditory.sampled.BufferedSound;
 import auditory.sampled.BufferedSoundFactory;
 import io.ResourceFinder;
 import visual.VisualizationView;
+import visual.dynamic.described.RuleBasedSprite;
 import visual.dynamic.described.Stage;
 import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
@@ -34,7 +36,9 @@ public class KillerSheep extends JApplication implements ActionListener
   private JTextArea blank;
   private static Stage stage;
   private static Content bernstein;
+  private static Content sheep;
   private static Bernstein b;
+  private static Sheep sh;
 
   public KillerSheep(int width, int height)
   {
@@ -102,7 +106,11 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Add Bernstein
     bernstein = factory.createContent("b2.png", 4, false);
-    b = new Bernstein(bernstein, 3, 30.0, 450.0);
+    b = new Bernstein(bernstein, 3, 200.0, 450.0);
+
+    // Add killer sheep (single for now)
+    sheep = factory.createContent("rsz_sheep.png", 4, false);
+    sh = new Sheep(sheep, 1, 30.0, 350.0);
 
     // Add paddock
     Content paddock = factory.createContent("paddock.png", 4, false);
@@ -115,6 +123,7 @@ public class KillerSheep extends JApplication implements ActionListener
     b.addAntagonist(p);
 
     stage.add(b);
+    stage.add(sh);
     stage.add(p);
 
     VisualizationView view = stage.getView();
