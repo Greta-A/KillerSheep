@@ -236,8 +236,8 @@ public class KillerSheep extends JApplication implements ActionListener
     }
     
     if (e.getSource() == resume)
-    {
-      stage.start();     
+    { 
+      stage.start();
     }
     
   }
