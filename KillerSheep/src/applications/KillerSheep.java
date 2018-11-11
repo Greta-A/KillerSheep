@@ -40,10 +40,16 @@ public class KillerSheep extends JApplication implements ActionListener
   private static Stage stage;
   private static Content bernstein;
   private static Content sheep;
+  private static Content sheep1;
+  private static Content sheep2;
+  private static Content sheep3;
   private static Content paddock;
   private static Content grass;
   private static Bernstein b;
   private static Sheep sh;
+  private static Sheep sh1;
+  private static Sheep sh2;
+  private static Sheep sh3;
   private static Paddock p;
 
   public KillerSheep(int width, int height)
@@ -80,6 +86,17 @@ public class KillerSheep extends JApplication implements ActionListener
     sheep = factory.createContent("rsz_sheep.png", 4, false);
     sh = new Sheep(sheep, 0, 20.0, 450.0);
     sh.setScale(0.5);
+    
+    // Add herd
+    sheep1 = factory.createContent("r_HtuULY.png", 4, false);
+    sheep2 = factory.createContent("r_HtuULY.png", 4, false);
+    sheep3 = factory.createContent("r_HtuULY.png", 4, false);
+    sh1 = new Sheep(sheep1, 0, 3.0, 450.0);
+    sh2 = new Sheep(sheep2, 0, 2.0, 475.0);
+    sh3 = new Sheep(sheep3, 0, 1.0, 500.0);
+    sh1.setScale(0.5);
+    sh2.setScale(0.5);
+    sh3.setScale(0.5);
 
     // Add paddock
     paddock = factory.createContent("paddock.png", 4, false);
@@ -92,6 +109,9 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.add(b);
     stage.add(sh);
     stage.add(p);
+    stage.add(sh1);
+    stage.add(sh2);
+    stage.add(sh3);
 
     VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
