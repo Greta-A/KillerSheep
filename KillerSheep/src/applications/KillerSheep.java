@@ -62,7 +62,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
 
     // Set up the stage with the grass background
-    //stage = new Stage(1);
+    stage = new Stage(1);
     grass = factory.createContent("grass.png", 3, false);
     stage.add(grass);
 
@@ -101,8 +101,8 @@ public class KillerSheep extends JApplication implements ActionListener
     contentPane.add(view);
     contentPane.add(instructions);
     contentPane.add(start);
-    //stage.start();
-    //stage.stop();
+    stage.start();
+    stage.stop();
     start.addActionListener(this);
     replayButton.addActionListener(this);
   }
@@ -159,11 +159,14 @@ public class KillerSheep extends JApplication implements ActionListener
   
   public static void intersectWithBernstein()
   {
+	double x, y;
     instructions.setText("You Lose!");
     start.setVisible(false);
     stage.stop();
+    x = b.getX();
+    y = b.getY();
     stage.remove(b);
-    b = new Bernstein(bernstein, 3, 1000.0, 0.0);
+    b = new Bernstein(bernstein, 3, x, y);
     stage.add(b);
     contentPane.add(replayButton);
   }
