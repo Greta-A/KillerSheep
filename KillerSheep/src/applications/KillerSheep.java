@@ -37,8 +37,7 @@ public class KillerSheep extends JApplication implements ActionListener
   private JTextArea blank;
   private static ResourceFinder finder;
   private static ContentFactory factory;
-  private static BoomBox box;
-  private static Stage stage = new Stage(1);
+  private static Stage stage;
   private static Content bernstein;
   private static Content sheep;
   private static Content paddock;
@@ -70,8 +69,8 @@ public class KillerSheep extends JApplication implements ActionListener
     b = new Bernstein(bernstein, 7, 200.0, 450.0);
 
     // Make bernstein movable
-    // stage.addKeyListener(b);
     contentPane.addKeyListener(b);
+    
     // Fix start button issues
     contentPane.setFocusable(true);
     contentPane.requestFocus();
@@ -168,8 +167,13 @@ public class KillerSheep extends JApplication implements ActionListener
     start.setVisible(false);
     stage.stop();
     stage.remove(b);
+    stage.remove(sh);
     b = new Bernstein(bernstein, 3, 1000.0, 0.0);
+    sheep = factory.createContent("Happysheep.png", 4, false);
+    sh = new Sheep(sheep, 0, 950.0, 0.0);
+    sh.setScale(0.5);
     stage.add(b);
+    stage.add(sh);
     contentPane.add(replayButton);
   }
 
@@ -184,6 +188,7 @@ public class KillerSheep extends JApplication implements ActionListener
     x = b.getX();
     y = b.getY();
     stage.remove(b);
+    bernstein = factory.createContent("flippedBernstein.png", 4, false);
     b = new Bernstein(bernstein, 3, x, y);
     stage.add(b);
     contentPane.add(replayButton);
@@ -197,6 +202,7 @@ public class KillerSheep extends JApplication implements ActionListener
       // Sheep Sound
       BufferedSoundFactory sf = new BufferedSoundFactory(finder);
       BufferedSound baaing;
+      BoomBox box;
 
       try
       {
@@ -227,7 +233,8 @@ public class KillerSheep extends JApplication implements ActionListener
 
     if (e.getSource() == replayButton)
     {
-      reset();
+    	contentPane.removeAll();
+        init();
     }
     
     if (e.getSource() == pause)
@@ -241,11 +248,4 @@ public class KillerSheep extends JApplication implements ActionListener
     }
     
   }
-
-  private void reset()
-  {
-    contentPane.removeAll();
-    init();
-  }
-
 }
