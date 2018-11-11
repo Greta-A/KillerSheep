@@ -71,7 +71,6 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   @Override
   public void handleTick(int arg0)
   {
-
     Iterator<Sprite> i;
     Sprite paddock;
 

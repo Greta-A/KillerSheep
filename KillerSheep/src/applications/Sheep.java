@@ -1,6 +1,9 @@
 package applications;
 
+import java.util.Iterator;
+
 import visual.dynamic.described.RuleBasedSprite;
+import visual.dynamic.described.Sprite;
 import visual.statik.TransformableContent;
 
 public class Sheep extends RuleBasedSprite
@@ -22,6 +25,18 @@ public class Sheep extends RuleBasedSprite
   @Override
   public void handleTick(int arg0)
   {
+	  Iterator<Sprite> i;
+	  Sprite bernstein;
+
+	  i = antagonists.iterator();
+	  while (i.hasNext())
+	  {
+		  bernstein = i.next();
+		  if (intersects(bernstein))
+		  {
+			  KillerSheep.intersectWithBernstein();
+		  }
+	  }
     x = x + 0.09;
     setLocation(x, y);
   }
