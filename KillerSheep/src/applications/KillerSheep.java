@@ -31,6 +31,8 @@ public class KillerSheep extends JApplication implements ActionListener
   private static JPanel contentPane;
   private static JButton start;
   private static JButton replayButton;
+  private static JButton pause;
+  private static JButton resume;
   private static JLabel instructions;
   private JTextArea blank;
   private static ResourceFinder finder;
@@ -102,6 +104,8 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.stop();
     start.addActionListener(this);
     replayButton.addActionListener(this);
+    pause.addActionListener(this);
+    resume.addActionListener(this);
   }
 
   public static void main(String[] args)
@@ -129,6 +133,21 @@ public class KillerSheep extends JApplication implements ActionListener
     replayButton.setHorizontalAlignment(SwingConstants.CENTER);
     replayButton.setSize(100, 60);
     replayButton.setLocation(700, 615);
+    
+    // Pause button
+    pause = new JButton("Pause");
+    pause.setFont(new Font("Serif", Font.PLAIN, 15));
+    pause.setHorizontalAlignment(SwingConstants.CENTER);
+    pause.setSize(70, 70);
+    pause.setLocation(1000, 615);
+    
+    // Resume button
+    resume = new JButton("Play");
+    resume.setFont(new Font("Serif", Font.PLAIN, 15));
+    resume.setHorizontalAlignment(SwingConstants.CENTER);
+    resume.setSize(70, 70);
+    resume.setLocation(1100, 615);
+    
 
     // create the instructions panel
     instructions = new JLabel();
@@ -159,6 +178,8 @@ public class KillerSheep extends JApplication implements ActionListener
     double x, y;
     instructions.setText("You Lose!");
     start.setVisible(false);
+    pause.setVisible(false);
+    resume.setVisible(false);
     stage.stop();
     x = b.getX();
     y = b.getY();
@@ -199,6 +220,8 @@ public class KillerSheep extends JApplication implements ActionListener
           "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
       instructions.setSize(990, 85);
       start.setVisible(false);
+      contentPane.add(pause);
+      contentPane.add(resume);
       blank.setVisible(false);
     }
 
@@ -206,6 +229,17 @@ public class KillerSheep extends JApplication implements ActionListener
     {
       reset();
     }
+    
+    if (e.getSource() == pause)
+    {
+      stage.stop();     
+    }
+    
+    if (e.getSource() == resume)
+    {
+      stage.start();     
+    }
+    
   }
 
   private void reset()
