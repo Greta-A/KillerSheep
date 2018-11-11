@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -22,7 +21,6 @@ import auditory.sampled.BufferedSound;
 import auditory.sampled.BufferedSoundFactory;
 import io.ResourceFinder;
 import visual.VisualizationView;
-import visual.dynamic.described.RuleBasedSprite;
 import visual.dynamic.described.Stage;
 import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
@@ -46,7 +44,7 @@ public class KillerSheep extends JApplication implements ActionListener
   private static Bernstein b;
   private static Sheep sh;
   private static Paddock p;
-  
+
   public KillerSheep(int width, int height)
   {
     super(width, height);
@@ -55,11 +53,10 @@ public class KillerSheep extends JApplication implements ActionListener
   @Override
   public void init()
   {
-	  layout();
-	  
+    layout();
+
     finder = ResourceFinder.createInstance(resources.Marker.class);
     factory = new ContentFactory(finder);
-
 
     // Set up the stage with the grass background
     stage = new Stage(1);
@@ -68,19 +65,19 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Add Bernstein
     bernstein = factory.createContent("b2.png", 4, false);
-    b = new Bernstein(bernstein, 3, 200.0, 450.0);
-    
- // Make bernstein movable
-    //stage.addKeyListener(b);
+    b = new Bernstein(bernstein, 7, 200.0, 450.0);
+
+    // Make bernstein movable
+    // stage.addKeyListener(b);
     contentPane.addKeyListener(b);
- // Fix start button issues
+    // Fix start button issues
     contentPane.setFocusable(true);
     contentPane.requestFocus();
     contentPane.requestFocusInWindow();
 
     // Add killer sheep (single for now)
     sheep = factory.createContent("rsz_sheep.png", 4, false);
-    sh = new Sheep(sheep, 1, 20.0, 450.0);
+    sh = new Sheep(sheep, 0, 20.0, 450.0);
     sh.setScale(0.5);
 
     // Add paddock
@@ -109,41 +106,41 @@ public class KillerSheep extends JApplication implements ActionListener
 
   public static void main(String[] args)
   {
-		  KillerSheep app = new KillerSheep(1200, 700);
-		  invokeInEventDispatchThread(app);
+    KillerSheep app = new KillerSheep(1200, 700);
+    invokeInEventDispatchThread(app);
   }
-  
+
   public void layout()
   {
-	// content pane layout should be null
-	    contentPane = (JPanel) getContentPane();
-	    contentPane.setLayout(null);
+    // content pane layout should be null
+    contentPane = (JPanel) getContentPane();
+    contentPane.setLayout(null);
 
-	    // Start Button
-	    start = new JButton("Start!");
-	    start.setFont(new Font("Serif", Font.PLAIN, 20));
-	    start.setHorizontalAlignment(SwingConstants.CENTER);
-	    start.setSize(100, 60);
-	    start.setLocation(700, 615);
-	    
-	    // Replay Button
-	    replayButton = new JButton("Replay?");
-	    replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
-	    replayButton.setHorizontalAlignment(SwingConstants.CENTER);
-	    replayButton.setSize(100, 60);
-	    replayButton.setLocation(700, 615);
+    // Start Button
+    start = new JButton("Start!");
+    start.setFont(new Font("Serif", Font.PLAIN, 20));
+    start.setHorizontalAlignment(SwingConstants.CENTER);
+    start.setSize(100, 60);
+    start.setLocation(700, 615);
 
-	    // create the instructions panel
-	    instructions = new JLabel();
-	    instructions.setText("Bernstein is only one click away! \u2192");
-	    instructions.setFont(new Font("Serif", Font.PLAIN, 20));
-	    instructions.setHorizontalAlignment(SwingConstants.CENTER);
-	    instructions.setSize(880, 85);
-	    instructions.setLocation(110, 610);
+    // Replay Button
+    replayButton = new JButton("Replay?");
+    replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
+    replayButton.setHorizontalAlignment(SwingConstants.CENTER);
+    replayButton.setSize(100, 60);
+    replayButton.setLocation(700, 615);
 
-	    blank = new JTextArea();
-	    blank.setSize(this.width, 600);
-	    blank.setEditable(false); 
+    // create the instructions panel
+    instructions = new JLabel();
+    instructions.setText("Bernstein is only one click away! \u2192");
+    instructions.setFont(new Font("Serif", Font.PLAIN, 20));
+    instructions.setHorizontalAlignment(SwingConstants.CENTER);
+    instructions.setSize(880, 85);
+    instructions.setLocation(110, 610);
+
+    blank = new JTextArea();
+    blank.setSize(this.width, 600);
+    blank.setEditable(false);
   }
 
   public static void intersectWithPaddock()
@@ -156,10 +153,10 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.add(b);
     contentPane.add(replayButton);
   }
-  
+
   public static void intersectWithBernstein()
   {
-	double x, y;
+    double x, y;
     instructions.setText("You Lose!");
     start.setVisible(false);
     stage.stop();
@@ -176,27 +173,27 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     if (e.getSource() == start)
     {
-    	// Sheep Sound
-	    BufferedSoundFactory sf = new BufferedSoundFactory(finder);
-	    BufferedSound baaing;
+      // Sheep Sound
+      BufferedSoundFactory sf = new BufferedSoundFactory(finder);
+      BufferedSound baaing;
 
-	    try
-	    {
-	      AudioInputStream stream;
-	      stream = AudioSystem.getAudioInputStream(finder.findURL("sheep-sound.wav"));
-	      baaing = sf.createBufferedSound(stream);
+      try
+      {
+        AudioInputStream stream;
+        stream = AudioSystem.getAudioInputStream(finder.findURL("sheep-sound.wav"));
+        baaing = sf.createBufferedSound(stream);
 
-	      auditory.sampled.Content c = baaing;
-	      box = new BoomBox(c);
-	      box.start();
+        auditory.sampled.Content c = baaing;
+        box = new BoomBox(c);
+        box.start();
 
-	    }
-	    catch (IOException | UnsupportedAudioFileException | NullPointerException
-	        | LineUnavailableException e1)
-	    {
-	      e1.printStackTrace();
-	    }
-    	
+      }
+      catch (IOException | UnsupportedAudioFileException | NullPointerException
+          | LineUnavailableException e1)
+      {
+        e1.printStackTrace();
+      }
+
       stage.start();
       instructions.setText(
           "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
@@ -204,17 +201,17 @@ public class KillerSheep extends JApplication implements ActionListener
       start.setVisible(false);
       blank.setVisible(false);
     }
-    
+
     if (e.getSource() == replayButton)
     {
-    	reset();
+      reset();
     }
   }
-  
+
   private void reset()
   {
-	  contentPane.removeAll();
-	  init();
+    contentPane.removeAll();
+    init();
   }
 
 }
