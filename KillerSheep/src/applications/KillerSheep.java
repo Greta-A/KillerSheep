@@ -280,7 +280,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
     if (e.getSource() == pause)
     {
-      stage.getMetronome().start();
+      stage.getMetronome().stop();
     }
 
     if (e.getSource() == resume)
