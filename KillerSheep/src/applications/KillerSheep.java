@@ -76,7 +76,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Make bernstein movable
     contentPane.addKeyListener(b);
-    
+
     // Fix start button issues
     contentPane.setFocusable(true);
     contentPane.requestFocus();
@@ -86,7 +86,7 @@ public class KillerSheep extends JApplication implements ActionListener
     sheep = factory.createContent("rsz_sheep.png", 4, false);
     sh = new Sheep(sheep, 0, 20.0, 450.0);
     sh.setScale(0.5);
-    
+
     // Add herd
     sheep1 = factory.createContent("r_HtuULY.png", 4, false);
     sheep2 = factory.createContent("r_HtuULY.png", 4, false);
@@ -119,6 +119,7 @@ public class KillerSheep extends JApplication implements ActionListener
     contentPane.add(view);
     contentPane.add(instructions);
     contentPane.add(start);
+    stage.addKeyListener(b);
     stage.start();
     stage.stop();
     start.addActionListener(this);
@@ -152,21 +153,20 @@ public class KillerSheep extends JApplication implements ActionListener
     replayButton.setHorizontalAlignment(SwingConstants.CENTER);
     replayButton.setSize(100, 60);
     replayButton.setLocation(700, 615);
-    
+
     // Pause button
     pause = new JButton("Pause");
     pause.setFont(new Font("Serif", Font.PLAIN, 15));
     pause.setHorizontalAlignment(SwingConstants.CENTER);
     pause.setSize(70, 70);
     pause.setLocation(1000, 615);
-    
+
     // Resume button
     resume = new JButton("Play");
     resume.setFont(new Font("Serif", Font.PLAIN, 15));
     resume.setHorizontalAlignment(SwingConstants.CENTER);
     resume.setSize(70, 70);
     resume.setLocation(1100, 615);
-    
 
     // create the instructions panel
     instructions = new JLabel();
@@ -188,12 +188,33 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.stop();
     stage.remove(b);
     stage.remove(sh);
+    stage.remove(sh1);
+    stage.remove(sh2);
+    stage.remove(sh3);
     b = new Bernstein(bernstein, 3, 1000.0, 0.0);
     sheep = factory.createContent("Happysheep.png", 4, false);
     sh = new Sheep(sheep, 0, 950.0, 0.0);
     sh.setScale(0.5);
+
+    // Add herd
+    sheep1 = factory.createContent("r_HtuULY.png", 4, false);
+    sheep2 = factory.createContent("r_HtuULY.png", 4, false);
+    sheep3 = factory.createContent("r_HtuULY.png", 4, false);
+    sh1 = new Sheep(sheep1, 0, 1090.0, 20);
+    sh2 = new Sheep(sheep2, 0, 1090.0, 50);
+    sh3 = new Sheep(sheep3, 0, 1090, 70);
+    sh1.setScale(0.5);
+    sh2.setScale(0.5);
+    sh3.setScale(0.5);
+
+    sh.setScale(0.5);
     stage.add(b);
     stage.add(sh);
+    stage.add(sh1);
+    stage.add(sh2);
+    stage.add(sh3);
+    pause.setVisible(false);
+    resume.setVisible(false);
     contentPane.add(replayButton);
   }
 
@@ -253,19 +274,22 @@ public class KillerSheep extends JApplication implements ActionListener
 
     if (e.getSource() == replayButton)
     {
-    	contentPane.removeAll();
-        init();
+      contentPane.removeAll();
+      init();
     }
-    
+
     if (e.getSource() == pause)
     {
-      stage.stop();     
+      stage.getMetronome().start();
     }
-    
+
     if (e.getSource() == resume)
-    { 
-      stage.start();
+    {
+      contentPane.setFocusable(true);
+      contentPane.requestFocus();
+      contentPane.requestFocusInWindow();
+      stage.getMetronome().start();
     }
-    
+
   }
 }
