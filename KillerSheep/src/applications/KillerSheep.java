@@ -142,28 +142,28 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Start Button
     start = new JButton("Start!");
-    start.setFont(new Font("Serif", Font.PLAIN, 20));
+    //start.setFont(new Font("Serif", Font.PLAIN, 20));
     start.setHorizontalAlignment(SwingConstants.CENTER);
     start.setSize(100, 60);
     start.setLocation(700, 615);
 
     // Replay Button
     replayButton = new JButton("Replay?");
-    replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
+    //replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
     replayButton.setHorizontalAlignment(SwingConstants.CENTER);
     replayButton.setSize(100, 60);
     replayButton.setLocation(700, 615);
 
     // Pause button
     pause = new JButton("Pause");
-    pause.setFont(new Font("Serif", Font.PLAIN, 15));
+    //pause.setFont(new Font("Serif", Font.PLAIN, 15));
     pause.setHorizontalAlignment(SwingConstants.CENTER);
     pause.setSize(70, 70);
     pause.setLocation(1000, 615);
 
     // Resume button
     resume = new JButton("Play");
-    resume.setFont(new Font("Serif", Font.PLAIN, 15));
+    //resume.setFont(new Font("Serif", Font.PLAIN, 15));
     resume.setHorizontalAlignment(SwingConstants.CENTER);
     resume.setSize(70, 70);
     resume.setLocation(1100, 615);
@@ -171,7 +171,7 @@ public class KillerSheep extends JApplication implements ActionListener
     // create the instructions panel
     instructions = new JLabel();
     instructions.setText("Bernstein is only one click away! \u2192");
-    instructions.setFont(new Font("Serif", Font.PLAIN, 20));
+    //instructions.setFont(new Font("Serif", Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
     instructions.setSize(880, 85);
     instructions.setLocation(110, 610);
