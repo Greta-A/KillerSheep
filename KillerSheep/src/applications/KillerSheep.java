@@ -39,20 +39,20 @@ public class KillerSheep extends JApplication implements ActionListener
   private static JButton pause;
   private static JButton resume;
   private static JLabel instructions;
-  private JTextArea blank;
   private static ResourceFinder finder;
   private static ContentFactory factory;
   private static Stage stage;
-  private static Stage startMenu;
   private static Content bernstein;
   private static Content sheep;
   private static Content sheep1;
+  private static Content sheep2;
   private static Content paddock;
   private static Content grass;
   private static Content ksmenu;
   private static Bernstein b;
   private static Sheep sh;
   private static Sheep sh1;
+  private static Sheep sh2;
   private static Paddock p;
 
   public KillerSheep(int width, int height)
@@ -198,6 +198,7 @@ public class KillerSheep extends JApplication implements ActionListener
     sheep1 = factory.createContent("rsz_sheep_png2190.png", 4, false);
     sh1 = new Sheep(sheep1, 0, 1090.0, 20);
     sh1.setScale(0.5);
+   
 
     sh.setScale(0.5);
     stage.add(b);
@@ -275,9 +276,16 @@ public class KillerSheep extends JApplication implements ActionListener
 
       // Add herd
       sheep1 = factory.createContent("rsz_sheep_png2190.png", 4, false);
-      sh1 = new Sheep(sheep1, 0, 0.0, 450.0);
+      sh1 = new Sheep(sheep1, 0, 150, 350.0);
       sh1.setScale(0.5);
 
+
+      
+      sheep2 = factory.createContent("rsz_sheep_png2190.png", 4, false);
+      sh2 = new Sheep(sheep2, 0, 30, 450);
+      sh2.setScale(0.5);
+      
+          
       // Add paddock
       paddock = factory.createContent("paddock.png", 4, false);
       p = new Paddock(paddock, 900.0, 0.0);
@@ -290,6 +298,7 @@ public class KillerSheep extends JApplication implements ActionListener
       stage.add(sh);
       stage.add(p);
       stage.add(sh1);
+      stage.add(sh2);
       
       stage.addKeyListener(b);
 

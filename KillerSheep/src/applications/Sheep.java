@@ -11,7 +11,7 @@ public class Sheep extends RuleBasedSprite
 
   protected double speed;
   protected double x, y;
-  protected double sub = 250;
+  protected double killSub = 250;
 
   public Sheep(TransformableContent content, double speed, double x, double y)
   {
@@ -28,10 +28,11 @@ public class Sheep extends RuleBasedSprite
   public void handleTick(int arg0)
   {
     
-    x = Bernstein.getX() - sub;
+    x = Bernstein.getX() - killSub;
     y = Bernstein.getY();
     setLocation(x, y);
     
+    killSub -= 0.025;
     
     Iterator<Sprite> i;
     Sprite bernstein;
@@ -41,12 +42,13 @@ public class Sheep extends RuleBasedSprite
     {
       
       bernstein = i.next();
-      sub -= 0.025;
+      killSub -= 0.035;
 
       if (intersects(bernstein))
       {
         KillerSheep.intersectWithBernstein();
       }
+      
       
       //setLocation(x, y);
     }
