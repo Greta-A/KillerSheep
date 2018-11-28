@@ -11,7 +11,7 @@ public class Sheep extends RuleBasedSprite
 
   protected double speed;
   protected double x, y;
-  protected double killSub = 250;
+  protected double killSub = 300;
   protected KillerSheep ks;
   protected Bernstein b;
 
@@ -33,9 +33,9 @@ public class Sheep extends RuleBasedSprite
   public void handleTick(int arg0)
   {
 
-    x = b.getX() - killSub;
-    y = b.getY();
-    setLocation(x, y);
+   x = b.getX() - killSub;
+   y = b.getY();
+   setLocation(x, y);
 
     killSub -= 0.025;
 
@@ -69,16 +69,6 @@ public class Sheep extends RuleBasedSprite
     return y;
   }
 
-  public void setX(double x)
-  {
-    this.x = x;
 
-  }
-
-  public void setY(double y)
-  {
-
-    this.y = y;
-  }
 
 }

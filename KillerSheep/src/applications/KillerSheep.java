@@ -37,17 +37,15 @@ public class KillerSheep extends JApplication implements ActionListener
   private Stage stage;
   private Content bernstein;
   private Content sheep;
-  private Content sheep1;
-  private Content sheep2;
   private Content paddock;
   private Content grass;
   private Content ksmenu;
   private Bernstein b;
   private Sheep sh;
-  private Sheep sh1;
-  private Sheep sh2;
   private Paddock p;
+  private BufferedSoundFactory sf;
 
+  
   public KillerSheep(int width, int height)
   {
     super(width, height);
@@ -59,6 +57,7 @@ public class KillerSheep extends JApplication implements ActionListener
     layout();
 
     finder = ResourceFinder.createInstance(resources.Marker.class);
+    sf = new BufferedSoundFactory(finder);
     factory = new ContentFactory(finder);
 
     stage = new Stage(1);
@@ -137,21 +136,13 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.stop();
     stage.remove(b);
     stage.remove(sh);
-    stage.remove(sh1);
     b = new Bernstein(bernstein, 3, 1000.0, 0.0, this);
-    sheep = factory.createContent("Happysheep.png", 4, false);
+    sheep = factory.createContent("Sheep+Herd.png", 4, false);
     sh = new Sheep(sheep, 0, 950.0, 0.0, this, b);
     sh.setScale(0.5);
 
-    // Add herd
-    sheep1 = factory.createContent("rsz_sheep_png2190.png", 4, false);
-    sh1 = new Sheep(sheep1, 0, 1090.0, 20, this, b);
-    sh1.setScale(0.5);
-
-    sh.setScale(0.5);
-    stage.add(b);
     stage.add(sh);
-    stage.add(sh1);
+    stage.add(b);
 
     pause.setVisible(false);
     resume.setVisible(false);
@@ -159,13 +150,34 @@ public class KillerSheep extends JApplication implements ActionListener
   }
 
   public void intersectWithBernstein()
-  {
+  {  
     double x, y;
     instructions.setText("You Lose!");
     start.setVisible(false);
     pause.setVisible(false);
     resume.setVisible(false);
     stage.stop();
+    
+  //Gosh Darn It Sound
+    BufferedSound darnIt;
+    BoomBox box;
+
+    try
+    {
+      AudioInputStream stream;
+      stream = AudioSystem.getAudioInputStream(finder.findURL("goshdarnit.wav"));
+      darnIt = sf.createBufferedSound(stream);
+      auditory.sampled.Content c = darnIt;
+      box = new BoomBox(c);
+      box.start();
+
+    }
+    catch (IOException | UnsupportedAudioFileException | NullPointerException
+        | LineUnavailableException e1)
+    {
+      e1.printStackTrace();
+    }
+    
     x = b.getX();
     y = b.getY();
     stage.remove(b);
@@ -182,7 +194,6 @@ public class KillerSheep extends JApplication implements ActionListener
     if (e.getSource() == start)
     {
       // Sheep Sound
-      BufferedSoundFactory sf = new BufferedSoundFactory(finder);
       BufferedSound baaing;
       BoomBox box;
 
@@ -208,7 +219,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
       // Add Bernstein
       bernstein = factory.createContent("b2.png", 4, false);
-      b = new Bernstein(bernstein, 7, 370, 450.0, this);
+      b = new Bernstein(bernstein, 7, 370, 450, this);
       // stage.add(b);
       // Make bernstein movable
       contentPane.addKeyListener(b);
@@ -218,19 +229,10 @@ public class KillerSheep extends JApplication implements ActionListener
       contentPane.requestFocus();
       contentPane.requestFocusInWindow();
 
-      // Add killer sheep (single for now)
-      sheep = factory.createContent("rsz_sheep.png", 4, false);
-      sh = new Sheep(sheep, 0, 270.0, 450.0, this, b);
+      // Add killer sheep and herd
+      sheep = factory.createContent("Sheep+Herd.png", 4, false);
+      sh = new Sheep(sheep, 0, 0.0, 100.0, this, b);
       sh.setScale(0.5);
-
-      // Add herd
-      sheep1 = factory.createContent("rsz_sheep_png2190.png", 4, false);
-      sh1 = new Sheep(sheep1, 0, 150, 350.0, this, b);
-      sh1.setScale(0.5);
-
-      sheep2 = factory.createContent("rsz_sheep_png2190.png", 4, false);
-      sh2 = new Sheep(sheep2, 0, 30, 450, this, b);
-      sh2.setScale(0.5);
 
       // Add paddock
       paddock = factory.createContent("paddock.png", 4, false);
@@ -243,8 +245,6 @@ public class KillerSheep extends JApplication implements ActionListener
       stage.add(b);
       stage.add(sh);
       stage.add(p);
-      stage.add(sh1);
-      stage.add(sh2);
 
       stage.addKeyListener(b);
 
