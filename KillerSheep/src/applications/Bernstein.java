@@ -14,8 +14,9 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   protected double speed;
   protected static double x;
   protected static double y;
+  protected KillerSheep ks;
 
-  public Bernstein(TransformableContent content, double speed, double x, double y)
+  public Bernstein(TransformableContent content, double speed, double x, double y, KillerSheep ks)
   {
     super(content);
 
@@ -24,6 +25,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
 
     setLocation(x, y);
     this.speed = speed;
+    this.ks = ks;
   }
 
   @Override
@@ -80,13 +82,10 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
     while (i.hasNext())
     {
       paddock = i.next();
-      /*
-       * if (i.next() instanceof Paddock) { }
-       * 
-       */
+
       if (intersects(paddock))
       {
-        KillerSheep.intersectWithPaddock();
+        ks.intersectWithPaddock();
       }
     }
     setLocation(x, y);
@@ -102,12 +101,12 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   {
   }
 
-  public static double getX()
+  public double getX()
   {
     return x;
   }
 
-  public static double getY()
+  public double getY()
   {
     return y;
   }
