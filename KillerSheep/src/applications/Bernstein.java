@@ -11,7 +11,9 @@ import visual.statik.sampled.TransformableContent;
 public class Bernstein extends RuleBasedSprite implements KeyListener
 {
 
-  protected double speed, x, y;
+  protected double speed;
+  protected static double x;
+  protected static double y;
 
   public Bernstein(TransformableContent content, double speed, double x, double y)
   {
@@ -100,12 +102,12 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   {
   }
 
-  public double getX()
+  public static double getX()
   {
     return x;
   }
 
-  public double getY()
+  public static double getY()
   {
     return y;
   }

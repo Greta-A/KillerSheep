@@ -9,7 +9,9 @@ import visual.statik.TransformableContent;
 public class Sheep extends RuleBasedSprite
 {
 
-  protected double speed, x, y;
+  protected double speed;
+  protected double x, y;
+  protected double sub = 250;
 
   public Sheep(TransformableContent content, double speed, double x, double y)
   {
@@ -25,20 +27,54 @@ public class Sheep extends RuleBasedSprite
   @Override
   public void handleTick(int arg0)
   {
-	  Iterator<Sprite> i;
-	  Sprite bernstein;
-
-	  i = antagonists.iterator();
-	  while (i.hasNext())
-	  {
-		  bernstein = i.next();
-		  if (intersects(bernstein))
-		  {
-			  KillerSheep.intersectWithBernstein();
-		  }
-	  }
-    x = x + 0.09;
+    
+    x = Bernstein.getX() - sub;
+    y = Bernstein.getY();
     setLocation(x, y);
+    
+    
+    Iterator<Sprite> i;
+    Sprite bernstein;
+
+    i = antagonists.iterator();
+    while (i.hasNext())
+    {
+      
+      bernstein = i.next();
+      sub -= 0.025;
+
+      if (intersects(bernstein))
+      {
+        KillerSheep.intersectWithBernstein();
+      }
+      
+      //setLocation(x, y);
+    }
+
+  }
+
+  public double getX()
+  {
+    return x;
+
+  }
+  
+  public double getY() 
+  {
+    
+    return y;
+  }
+  
+  public void setX(double x)
+  {
+    this.x = x;
+
+  }
+  
+  public void setY(double y) 
+  {
+    
+    this.y = y;
   }
 
 }
