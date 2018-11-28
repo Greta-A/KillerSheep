@@ -135,9 +135,9 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.stop();
     stage.remove(b);
     stage.remove(sh);
-    b = new Bernstein(bernstein, 10, 1000.0, 0.0, this);
+    b = new Bernstein(bernstein, 10, p.getX() + 25, 0.0, this);
     sheep = factory.createContent("Sheep+Herd.png", 4, false);
-    sh = new Sheep(sheep, 0, 950.0, 0.0, this, b);
+    sh = new Sheep(sheep, 0, p.getX() + 50, 0.0, this, b);
     sh.setScale(0.5);
 
     stage.add(sh);
@@ -235,7 +235,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
       // Add paddock
       paddock = factory.createContent("paddock.png", 4, false);
-      p = new Paddock(paddock, 900.0, 0.0);
+      p = new Paddock(paddock);
       p.setScale(1.5);
 
       b.addAntagonist(p);

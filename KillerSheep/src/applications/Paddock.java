@@ -1,19 +1,27 @@
 package applications;
 
+import java.util.Random;
+
 import visual.dynamic.described.RuleBasedSprite;
 import visual.statik.TransformableContent;
 
 public class Paddock extends RuleBasedSprite
 {
-	protected double x, y;
+	protected double x, y, maxX;
+	private static Random rng = new Random();
+	private static final int INITIAL_LOCATION = 900;
 	
-	public Paddock(TransformableContent content, double x, double y) {
+	public Paddock(TransformableContent content) 
+	{
 		super(content);
 
-		this.x = x;
-		this.y = y;
+		//this.x = x;
+		//this.y = y;
 		
-		setLocation(x, y);
+		maxX = 900;
+		x = rng.nextDouble() * maxX;
+		
+		//setLocation(x, y);
 
 		// TODO Auto-generated constructor stub
 	}
@@ -21,8 +29,22 @@ public class Paddock extends RuleBasedSprite
 	@Override
 	public void handleTick(int arg0) 
 	{
-		setLocation(x,y);
+		if (x > (int)maxX)
+		{
+			x = INITIAL_LOCATION;
+		}
 		
+		setLocation(x,y);
+	}
+	
+	public double getX()
+	{
+		return x;
+	}
+	
+	public double getY()
+	{
+		return y;
 	}
 
 }
