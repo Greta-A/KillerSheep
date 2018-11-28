@@ -33,11 +33,11 @@ public class Sheep extends RuleBasedSprite
   public void handleTick(int arg0)
   {
 
-   x = b.getX() - killSub;
-   y = b.getY();
-   setLocation(x, y);
+    x = b.getX() - killSub;
+    y = b.getY();
+    setLocation(x, y);
 
-    killSub -= 0.025;
+    killSub -= 0.5;
 
     Iterator<Sprite> i;
     Sprite bernstein;
@@ -45,9 +45,8 @@ public class Sheep extends RuleBasedSprite
     i = antagonists.iterator();
     while (i.hasNext())
     {
-
       bernstein = i.next();
-      killSub -= 0.035;
+      killSub -= 0.8;
 
       if (intersects(bernstein))
       {
@@ -68,7 +67,5 @@ public class Sheep extends RuleBasedSprite
 
     return y;
   }
-
-
 
 }
