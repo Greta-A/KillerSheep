@@ -86,7 +86,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
     stage = new Stage(30);
     grass = factory.createContent("grass.png", 3, false);
-    ksmenu = factory.createContent("KS_menu.jpg", 3, false);
+    ksmenu = factory.createContent("ks_menu.png", 3, false);
     stage.add(ksmenu);
     VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
