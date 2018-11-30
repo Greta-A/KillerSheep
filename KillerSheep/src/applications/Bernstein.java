@@ -12,8 +12,8 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
 {
 
   protected double speed;
-  protected static double x;
-  protected static double y;
+  protected double x;
+  protected double y;
   protected KillerSheep ks;
 
   public Bernstein(TransformableContent content, double speed, double x, double y, KillerSheep ks)
@@ -52,7 +52,6 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
         break;
     }
 
-    // Somebody please refactor this to look less ugly. thanks.
     if (x < 0)
     {
       x = 30;

@@ -37,8 +37,7 @@ public class Sheep extends RuleBasedSprite
     y = b.getY();
     setLocation(x, y);
 
-    killSub -= 0.5;
-
+    // killSub -= 0.5;
     Iterator<Sprite> i;
     Sprite bernstein;
 
@@ -46,7 +45,7 @@ public class Sheep extends RuleBasedSprite
     while (i.hasNext())
     {
       bernstein = i.next();
-      killSub -= 0.8;
+      killSub -= 2.3;
 
       if (intersects(bernstein))
       {
@@ -54,6 +53,11 @@ public class Sheep extends RuleBasedSprite
       }
     }
 
+  }
+
+  public void setKillSubZero()
+  {
+    killSub = 0;
   }
 
   public double getX()
