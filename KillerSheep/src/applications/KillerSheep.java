@@ -1,5 +1,6 @@
 package applications;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -43,21 +44,45 @@ public class KillerSheep extends JApplication implements ActionListener
   private Bernstein b;
   private Sheep sh;
   private Paddock p;
-  private BufferedSoundFactory sf;
+  private BoomBox darnbox;
+  private BoomBox sheepBox;
 
   public KillerSheep(int width, int height)
   {
     super(width, height);
+
+    finder = ResourceFinder.createInstance(resources.Marker.class);
+    BufferedSoundFactory sf = new BufferedSoundFactory(finder);
+    factory = new ContentFactory(finder);
+
+    // Gosh Darn It Sound
+    BufferedSound darnIt;
+    BufferedSound baaing;
+    try
+    {
+      AudioInputStream stream;
+      stream = AudioSystem.getAudioInputStream(finder.findURL("goshdarnit.wav"));
+      darnIt = sf.createBufferedSound(stream);
+      auditory.sampled.Content gosh = darnIt;
+      darnbox = new BoomBox(gosh);
+
+      stream = AudioSystem.getAudioInputStream(finder.findURL("sheep-sound.wav"));
+      baaing = sf.createBufferedSound(stream);
+
+      auditory.sampled.Content sheepSound = baaing;
+      sheepBox = new BoomBox(sheepSound);
+    }
+    catch (IOException | UnsupportedAudioFileException | NullPointerException e1)
+    {
+      e1.printStackTrace();
+    }
+
   }
 
   @Override
   public void init()
   {
     layout();
-
-    finder = ResourceFinder.createInstance(resources.Marker.class);
-    sf = new BufferedSoundFactory(finder);
-    factory = new ContentFactory(finder);
 
     stage = new Stage(30);
     grass = factory.createContent("grass.png", 3, false);
@@ -66,15 +91,16 @@ public class KillerSheep extends JApplication implements ActionListener
     VisualizationView view = stage.getView();
     view.setBounds(0, 0, this.width, 600);
 
+    start.addActionListener(this);
+    replayButton.addActionListener(this);
+    pause.addActionListener(this);
+    resume.addActionListener(this);
+
     contentPane.add(view);
     contentPane.add(instructions);
     contentPane.add(start);
     stage.start();
     stage.stop();
-    start.addActionListener(this);
-    replayButton.addActionListener(this);
-    pause.addActionListener(this);
-    resume.addActionListener(this);
   }
 
   public static void main(String[] args)
@@ -91,28 +117,28 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // Start Button
     start = new JButton("Start!");
-    // start.setFont(new Font("Serif", Font.PLAIN, 20));
+    start.setFont(new Font("Serif", Font.PLAIN, 20));
     start.setHorizontalAlignment(SwingConstants.CENTER);
     start.setSize(100, 60);
     start.setLocation(700, 615);
 
     // Replay Button
     replayButton = new JButton("Replay?");
-    // replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
+    replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
     replayButton.setHorizontalAlignment(SwingConstants.CENTER);
     replayButton.setSize(100, 60);
     replayButton.setLocation(700, 615);
 
     // Pause button
     pause = new JButton("Pause");
-    // pause.setFont(new Font("Serif", Font.PLAIN, 15));
+    pause.setFont(new Font("Serif", Font.PLAIN, 15));
     pause.setHorizontalAlignment(SwingConstants.CENTER);
     pause.setSize(70, 70);
     pause.setLocation(1000, 615);
 
     // Resume button
     resume = new JButton("Play");
-    // resume.setFont(new Font("Serif", Font.PLAIN, 15));
+    resume.setFont(new Font("Serif", Font.PLAIN, 15));
     resume.setHorizontalAlignment(SwingConstants.CENTER);
     resume.setSize(70, 70);
     resume.setLocation(1100, 615);
@@ -120,7 +146,7 @@ public class KillerSheep extends JApplication implements ActionListener
     // create the instructions panel
     instructions = new JLabel();
     instructions.setText("Bernstein is only one click away! \u2192");
-    // instructions.setFont(new Font("Serif", Font.PLAIN, 20));
+    instructions.setFont(new Font("Serif", Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
     instructions.setSize(880, 85);
     instructions.setLocation(110, 610);
@@ -157,24 +183,13 @@ public class KillerSheep extends JApplication implements ActionListener
     resume.setVisible(false);
     stage.stop();
 
-    // Gosh Darn It Sound
-    BufferedSound darnIt;
-    BoomBox box;
-
     try
     {
-      AudioInputStream stream;
-      stream = AudioSystem.getAudioInputStream(finder.findURL("goshdarnit.wav"));
-      darnIt = sf.createBufferedSound(stream);
-      auditory.sampled.Content c = darnIt;
-      box = new BoomBox(c);
-      box.start();
-
+      darnbox.start();
     }
-    catch (IOException | UnsupportedAudioFileException | NullPointerException
-        | LineUnavailableException e1)
+    catch (LineUnavailableException e)
     {
-      e1.printStackTrace();
+      e.printStackTrace();
     }
 
     x = b.getX();
@@ -192,29 +207,20 @@ public class KillerSheep extends JApplication implements ActionListener
   {
     if (e.getSource() == start)
     {
-      // Sheep Sound
-      BufferedSound baaing;
-      BoomBox box;
 
-      try
-      {
-        AudioInputStream stream;
-        stream = AudioSystem.getAudioInputStream(finder.findURL("sheep-sound.wav"));
-        baaing = sf.createBufferedSound(stream);
-
-        auditory.sampled.Content c = baaing;
-        box = new BoomBox(c);
-        box.start();
-
-      }
-      catch (IOException | UnsupportedAudioFileException | NullPointerException
-          | LineUnavailableException e1)
-      {
-        e1.printStackTrace();
-      }
       stage.stop();
       stage.remove(ksmenu);
       stage.add(grass);
+
+      try
+      {
+        sheepBox.start();
+      }
+      catch (LineUnavailableException e1)
+      {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
 
       // Add Bernstein
       bernstein = factory.createContent("b2.png", 4, false);
