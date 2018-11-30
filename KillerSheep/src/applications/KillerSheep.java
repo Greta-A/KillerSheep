@@ -159,6 +159,7 @@ public class KillerSheep extends JApplication implements ActionListener
     start.setVisible(false);
 
     stage.stop();
+
     stage.remove(b);
     stage.remove(sh);
     b = new Bernstein(bernstein, 10, p.getX() + 25, 0.0, this);
@@ -166,8 +167,14 @@ public class KillerSheep extends JApplication implements ActionListener
     sh = new Sheep(sheep, 0, p.getX() + 50, 0.0, this, b);
     sh.setScale(0.5);
 
+    sh.setKillSubZero();
     stage.add(sh);
     stage.add(b);
+
+    for (int i = 0; i < 200; i++)
+      stage.add(new FallingCharacter(1200, 600));
+
+    stage.start();
 
     pause.setVisible(false);
     resume.setVisible(false);
