@@ -82,6 +82,11 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
       y = 455;
     }
 
+    state += stateChange;
+    if (state == 1)
+      stateChange = -1;
+    else
+      stateChange = 1;
   }
 
   @Override
