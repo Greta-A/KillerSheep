@@ -26,6 +26,13 @@ import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
 import visual.statik.sampled.ImageFactory;
 
+/**
+ * KillerSheep: main class for KillerSheep game.
+ * @author Greta, Rain, Joelle
+ *
+ * We abide by the JMU Honor Code
+ */
+
 public class KillerSheep extends JApplication implements ActionListener
 {
   // variable declarations
@@ -49,7 +56,15 @@ public class KillerSheep extends JApplication implements ActionListener
   private BoomBox darnbox;
   private BoomBox sheepBox;
   private ImageFactory imageFactory;
+  private String sheepImage = "Sheep+Herd.png";
 
+  /**
+   * KillerSheep: constructor that takes in width/height of program
+   *   and initializes audio variables.
+   * @param width the width of the main screen
+   * @param height the height of the main screen
+   */
+  
   public KillerSheep(int width, int height)
   {
     super(width, height);
@@ -83,6 +98,10 @@ public class KillerSheep extends JApplication implements ActionListener
 
   }
 
+  /**
+   * init: initialization method required for JApplication; sets up the stage and contentPane; 
+   *   adds listeners to buttons.
+   */
   @Override
   public void init()
   {
@@ -107,68 +126,82 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.stop();
   }
 
+  /**
+   * main entry point into KillerSheep program, sets up dimensions. 
+   * @param args command line arguments
+   */
   public static void main(String[] args)
   {
     KillerSheep app = new KillerSheep(1200, 700);
     invokeInEventDispatchThread(app);
   }
 
+  /**
+   * layout: helper method to create Components of the contentPane.
+   */
   public void layout()
   {
+	  String serif = "Serif";
+	  
     // content pane layout should be null
     contentPane = (JPanel) getContentPane();
     contentPane.setLayout(null);
 
     // Start Button
     start = new JButton("Start!");
-    start.setFont(new Font("Serif", Font.PLAIN, 20));
+    start.setFont(new Font(serif, Font.PLAIN, 20));
     start.setHorizontalAlignment(SwingConstants.CENTER);
     start.setSize(100, 60);
     start.setLocation(950, 615);
 
     // Replay Button
     replayButton = new JButton("Replay?");
-    replayButton.setFont(new Font("Serif", Font.PLAIN, 20));
+    replayButton.setFont(new Font(serif, Font.PLAIN, 20));
     replayButton.setHorizontalAlignment(SwingConstants.CENTER);
     replayButton.setSize(100, 60);
     replayButton.setLocation(700, 615);
 
     // Pause button
     pause = new JButton("Pause");
-    pause.setFont(new Font("Serif", Font.PLAIN, 15));
+    pause.setFont(new Font(serif, Font.PLAIN, 15));
     pause.setHorizontalAlignment(SwingConstants.CENTER);
     pause.setSize(70, 70);
     pause.setLocation(1000, 615);
 
     // Resume button
     resume = new JButton("Play");
-    resume.setFont(new Font("Serif", Font.PLAIN, 15));
+    resume.setFont(new Font(serif, Font.PLAIN, 15));
     resume.setHorizontalAlignment(SwingConstants.CENTER);
     resume.setSize(70, 70);
     resume.setLocation(1100, 615);
 
-    // create the instructions panel
+    // Instructions panel
     instructions = new JLabel();
-    instructions.setText(
-        "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
-    instructions.setFont(new Font("Serif", Font.PLAIN, 20));
+    instructions.setText("Use the arrow keys to direct Bernstein safely into the paddock! "
+    		+ "Avoid the angry, killer sheep!");
+    instructions.setFont(new Font(serif, Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
     instructions.setSize(880, 85);
     instructions.setLocation(110, 610);
 
   }
 
+  /**
+   * intersectWithPaddock: helper method to win the game; transports Bernstein into the 
+   *  paddock with the sheep.
+   */
   public void intersectWithPaddock()
   {
     instructions.setText("You Win!");
     start.setVisible(false);
 
+    //stop the stage, prevent user from moving player
     stage.stop();
 
     stage.remove(b);
     stage.remove(sh);
     b = new Bernstein(bernstein, 0, p.getX() + 25, 0.0, this);
-    sheep = factory.createContent("Sheep+Herd.png", 4, false);
+    sheep = factory.createContent(sheepImage, 4, false);
     sh = new Sheep(sheep, 0, p.getX() + 50, 0.0, this, b);
     sh.setScale(0.5);
 
@@ -179,9 +212,11 @@ public class KillerSheep extends JApplication implements ActionListener
     resume.setVisible(false);
 
     contentPane.add(replayButton);
-
   }
 
+  /**
+   * intersectWithBernstein: loss state, changes player to dead Bernstein.
+   */
   public void intersectWithBernstein()
   {
     double x, y;
@@ -191,6 +226,7 @@ public class KillerSheep extends JApplication implements ActionListener
     resume.setVisible(false);
     stage.stop();
 
+    // play the "Gosh Darn It" audio
     try
     {
       darnbox.start();
@@ -206,7 +242,6 @@ public class KillerSheep extends JApplication implements ActionListener
 
     BufferedImage[] images = imageFactory.createBufferedImages("flippedBernstein.png", 1, 4);
     Content[] b2 = new Content[1];
-
     b2[0] = factory.createContent(images[0]);
 
     b = new Bernstein(b2, 0, x, y, this);
@@ -214,19 +249,22 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.add(b);
 
     contentPane.add(replayButton);
-
   }
 
+  /**
+   * actionPerformed: required for JButtons, performs events for start, play, pause, and resume
+   *   buttons.
+   */
   @Override
   public void actionPerformed(ActionEvent e)
   {
     if (e.getSource() == start)
     {
-
       stage.stop();
       stage.remove(ksmenu);
       stage.add(grass);
 
+      // play Sheep sound
       try
       {
         sheepBox.start();
@@ -236,6 +274,7 @@ public class KillerSheep extends JApplication implements ActionListener
         e1.printStackTrace();
       }
 
+      // create images of Bernstein walking as player
       BufferedImage[] images = imageFactory.createBufferedImages("bernsteinWalking.png", 2, 4);
       bernstein = new Content[2];
 
@@ -250,7 +289,7 @@ public class KillerSheep extends JApplication implements ActionListener
       contentPane.requestFocusInWindow();
 
       // Add killer sheep and herd
-      sheep = factory.createContent("Sheep+Herd.png", 4, false);
+      sheep = factory.createContent(sheepImage, 4, false);
       sh = new Sheep(sheep, 5, 0.0, 100.0, this, b);
       sh.setScale(0.5);
 
@@ -268,18 +307,15 @@ public class KillerSheep extends JApplication implements ActionListener
 
       contentPane.addKeyListener(b);
 
-      instructions.setText(
-          "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
-      instructions.setSize(990, 85);
       start.setVisible(false);
       contentPane.add(pause);
       contentPane.add(resume);
       stage.start();
-
     }
 
     if (e.getSource() == replayButton)
     {
+    	// remove everything from stage and call init to restart application
       stage.remove(b);
       contentPane.setVisible(false);
       contentPane.removeAll();

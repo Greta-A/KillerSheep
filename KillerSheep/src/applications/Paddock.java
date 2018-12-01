@@ -5,27 +5,34 @@ import java.util.Random;
 import visual.dynamic.described.RuleBasedSprite;
 import visual.statik.TransformableContent;
 
+/**
+ * Paddock: Sprite class for the paddock.
+ * @author Greta, Rain, Joelle
+ *
+ * We abide by the JMU Honor Code
+ */
 public class Paddock extends RuleBasedSprite
 {
-	protected double x, y, maxX;
 	private static Random rng = new Random();
 	private static final int INITIAL_LOCATION = 900;
+	protected double x, y, maxX;
 	
+	/**
+	 * Paddock: constuctor that takes in the paddock content and randomizes location
+	 *   of the paddock. 
+	 * @param content the image content of the paddock
+	 */
 	public Paddock(TransformableContent content) 
 	{
 		super(content);
-
-		//this.x = x;
-		//this.y = y;
-		
-		maxX = 900;
+	
+		maxX = 900; // the max x bounds
 		x = rng.nextDouble() * maxX;
-		
-		//setLocation(x, y);
-
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * handleTick: required by metronome; sets location of the paddock.
+	 */
 	@Override
 	public void handleTick(int arg0) 
 	{
@@ -37,14 +44,21 @@ public class Paddock extends RuleBasedSprite
 		setLocation(x,y);
 	}
 	
+	/**
+	 * getX: getter method to retrieve x-axis location of the paddock.
+	 * @return the value of the x-axis
+	 */
 	public double getX()
 	{
 		return x;
 	}
 	
+	/**
+	 * getY: getter method to retrieve y-axis location of the paddock.
+	 * @return the value of the y-axis
+	 */
 	public double getY()
 	{
 		return y;
 	}
-
 }
