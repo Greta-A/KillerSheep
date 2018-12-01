@@ -50,43 +50,55 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
       case KeyEvent.VK_UP:
         y -= speed;
         setLocation(x, y);
+        stateChange();
         break;
       case KeyEvent.VK_DOWN:
         y += speed;
         setLocation(x, y);
+        stateChange();
         break;
       case KeyEvent.VK_LEFT:
         x -= speed;
         setLocation(x, y);
+        stateChange();
         break;
       case KeyEvent.VK_RIGHT:
         x += speed;
         setLocation(x, y);
+        stateChange();
         break;
     }
 
     if (x < 0)
     {
-      x = 30;
+      x = 40;
     }
     if (x > 1100)
     {
-      x = 1100;
+      x = 1000;
     }
     if (y < 0)
     {
-      y = 4.0;
+      y = 6.0;
     }
     if (y > 455)
     {
-      y = 455;
+      y = 420;
     }
 
+  }
+
+  public void stateChange()
+  {
     state += stateChange;
     if (state == 1)
+    {
       stateChange = -1;
+    }
     else
+    {
       stateChange = 1;
+    }
   }
 
   @Override

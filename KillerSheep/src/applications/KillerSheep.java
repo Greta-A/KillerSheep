@@ -48,14 +48,16 @@ public class KillerSheep extends JApplication implements ActionListener
   private Paddock p;
   private BoomBox darnbox;
   private BoomBox sheepBox;
+  private ImageFactory imageFactory;
 
   public KillerSheep(int width, int height)
   {
     super(width, height);
 
     finder = ResourceFinder.createInstance(resources.Marker.class);
-    BufferedSoundFactory sf = new BufferedSoundFactory(finder);
     factory = new ContentFactory(finder);
+    BufferedSoundFactory sf = new BufferedSoundFactory(finder);
+    imageFactory = new ImageFactory(finder);
 
     // Gosh Darn It Sound
     BufferedSound darnIt;
@@ -161,11 +163,11 @@ public class KillerSheep extends JApplication implements ActionListener
     instructions.setText("You Win!");
     start.setVisible(false);
 
-    stage.getMetronome().stop();
+    stage.stop();
 
     stage.remove(b);
     stage.remove(sh);
-    b = new Bernstein(bernstein, 10, p.getX() + 25, 0.0, this);
+    b = new Bernstein(bernstein, 0, p.getX() + 25, 0.0, this);
     sheep = factory.createContent("Sheep+Herd.png", 4, false);
     sh = new Sheep(sheep, 0, p.getX() + 50, 0.0, this, b);
     sh.setScale(0.5);
@@ -175,11 +177,6 @@ public class KillerSheep extends JApplication implements ActionListener
 
     pause.setVisible(false);
     resume.setVisible(false);
-
-    // for (int i = 0; i < 200; i++)
-    // stage.add(new FallingCharacter(1200, 600));
-
-    // stage.getMetronome().start();
 
     contentPane.add(replayButton);
 
@@ -207,10 +204,13 @@ public class KillerSheep extends JApplication implements ActionListener
     y = b.getY();
     stage.remove(b);
 
-    bernstein = new Content[2];
-    bernstein[0] = factory.createContent("flippedBernstein.png", 4, false);
-    bernstein[1] = factory.createContent("flippedBernstein.png", 4, false);
-    b = new Bernstein(bernstein, 0, x, y, this);
+    BufferedImage[] images = imageFactory.createBufferedImages("flippedBernstein.png", 1, 4);
+    Content[] b2 = new Content[1];
+
+    b2[0] = factory.createContent(images[0]);
+
+    b = new Bernstein(b2, 0, x, y, this);
+
     stage.add(b);
 
     contentPane.add(replayButton);
@@ -233,19 +233,16 @@ public class KillerSheep extends JApplication implements ActionListener
       }
       catch (LineUnavailableException e1)
       {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
-      ImageFactory imageFactory = new ImageFactory(finder);
+
       BufferedImage[] images = imageFactory.createBufferedImages("bernsteinWalking.png", 2, 4);
       bernstein = new Content[2];
+
       // Add Bernstein
       bernstein[0] = factory.createContent(images[0]);
       bernstein[1] = factory.createContent(images[1]);
       b = new Bernstein(bernstein, 10, 370, 450, this);
-      // stage.add(b);
-      // Make bernstein movable
-      contentPane.addKeyListener(b);
 
       // Fix start button issues
       contentPane.setFocusable(true);
@@ -269,15 +266,15 @@ public class KillerSheep extends JApplication implements ActionListener
       stage.add(sh);
       stage.add(p);
 
-      stage.addKeyListener(b);
+      contentPane.addKeyListener(b);
 
-      stage.start();
       instructions.setText(
           "Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
       instructions.setSize(990, 85);
       start.setVisible(false);
       contentPane.add(pause);
       contentPane.add(resume);
+      stage.start();
 
     }
 
