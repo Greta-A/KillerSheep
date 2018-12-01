@@ -15,8 +15,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   protected double x;
   protected double y;
   protected KillerSheep ks;
-  protected int lastTime, millisPerState, state, stateChange;
-  protected int timeInState;
+  protected int state, stateChange;
   protected TransformableContent[] contents;
 
   public Bernstein(TransformableContent contents[], double speed, double x, double y,
@@ -46,13 +45,6 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   @Override
   public void keyPressed(KeyEvent e)
   {
-
-    state += stateChange;
-    if (state == 1)
-      stateChange = -1;
-    else if (state == 0)
-      stateChange = 1;
-
     switch (e.getKeyCode())
     {
       case KeyEvent.VK_UP:
@@ -109,7 +101,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
         ks.intersectWithPaddock();
       }
     }
-    setLocation(x, y);
+    // setLocation(x, y);
   }
 
   @Override
