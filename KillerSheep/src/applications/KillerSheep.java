@@ -122,7 +122,7 @@ public class KillerSheep extends JApplication implements ActionListener
     start.setFont(new Font("Serif", Font.PLAIN, 20));
     start.setHorizontalAlignment(SwingConstants.CENTER);
     start.setSize(100, 60);
-    start.setLocation(700, 615);
+    start.setLocation(950, 615);
 
     // Replay Button
     replayButton = new JButton("Replay?");
@@ -147,7 +147,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
     // create the instructions panel
     instructions = new JLabel();
-    instructions.setText("Bernstein is only one click away! \u2192");
+    instructions.setText("Use the arrow keys to direct Bernstein safely into the paddock! Avoid the angry, killer sheep!");
     instructions.setFont(new Font("Serif", Font.PLAIN, 20));
     instructions.setHorizontalAlignment(SwingConstants.CENTER);
     instructions.setSize(880, 85);
@@ -176,10 +176,10 @@ public class KillerSheep extends JApplication implements ActionListener
     pause.setVisible(false);
     resume.setVisible(false);
 
-    for (int i = 0; i < 200; i++)
-      stage.add(new FallingCharacter(1200, 600));
+    //for (int i = 0; i < 200; i++)
+      //stage.add(new FallingCharacter(1200, 600));
 
-    stage.getMetronome().start();
+    //stage.getMetronome().start();
 
     contentPane.add(replayButton);
 
