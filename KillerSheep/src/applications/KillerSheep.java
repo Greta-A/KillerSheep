@@ -3,6 +3,7 @@ package applications;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -23,6 +24,7 @@ import visual.VisualizationView;
 import visual.dynamic.described.Stage;
 import visual.statik.sampled.Content;
 import visual.statik.sampled.ContentFactory;
+import visual.statik.sampled.ImageFactory;
 
 public class KillerSheep extends JApplication implements ActionListener
 {
@@ -36,7 +38,7 @@ public class KillerSheep extends JApplication implements ActionListener
   private ResourceFinder finder;
   private ContentFactory factory;
   private Stage stage;
-  private Content bernstein;
+  private Content[] bernstein;
   private Content sheep;
   private Content paddock;
   private Content grass;
@@ -158,7 +160,7 @@ public class KillerSheep extends JApplication implements ActionListener
     instructions.setText("You Win!");
     start.setVisible(false);
 
-    stage.stop();
+    stage.getMetronome().stop();
 
     stage.remove(b);
     stage.remove(sh);
@@ -171,14 +173,16 @@ public class KillerSheep extends JApplication implements ActionListener
     stage.add(sh);
     stage.add(b);
 
+    pause.setVisible(false);
+    resume.setVisible(false);
+
     for (int i = 0; i < 200; i++)
       stage.add(new FallingCharacter(1200, 600));
 
-    stage.start();
+    stage.getMetronome().start();
 
-    pause.setVisible(false);
-    resume.setVisible(false);
     contentPane.add(replayButton);
+
   }
 
   public void intersectWithBernstein()
@@ -202,9 +206,13 @@ public class KillerSheep extends JApplication implements ActionListener
     x = b.getX();
     y = b.getY();
     stage.remove(b);
-    bernstein = factory.createContent("flippedBernstein.png", 4, false);
+
+    bernstein = new Content[2];
+    bernstein[0] = factory.createContent("flippedBernstein.png", 4, false);
+    bernstein[1] = factory.createContent("flippedBernstein.png", 4, false);
     b = new Bernstein(bernstein, 0, x, y, this);
     stage.add(b);
+
     contentPane.add(replayButton);
 
   }
@@ -228,9 +236,12 @@ public class KillerSheep extends JApplication implements ActionListener
         // TODO Auto-generated catch block
         e1.printStackTrace();
       }
-
+      ImageFactory imageFactory = new ImageFactory(finder);
+      BufferedImage[] images = imageFactory.createBufferedImages("bernsteinWalking.png", 2, 4);
+      bernstein = new Content[2];
       // Add Bernstein
-      bernstein = factory.createContent("b2.png", 4, false);
+      bernstein[0] = factory.createContent(images[0]);
+      bernstein[1] = factory.createContent(images[1]);
       b = new Bernstein(bernstein, 10, 370, 450, this);
       // stage.add(b);
       // Make bernstein movable

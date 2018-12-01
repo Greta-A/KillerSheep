@@ -15,22 +15,43 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   protected double x;
   protected double y;
   protected KillerSheep ks;
+  protected int lastTime, millisPerState, state, stateChange;
+  protected int timeInState;
+  protected TransformableContent[] contents;
 
-  public Bernstein(TransformableContent content, double speed, double x, double y, KillerSheep ks)
+  public Bernstein(TransformableContent contents[], double speed, double x, double y,
+      KillerSheep ks)
   {
-    super(content);
+    super(contents[0]);
 
+    this.contents = contents;
     this.x = x;
     this.y = y;
 
     setLocation(x, y);
     this.speed = speed;
     this.ks = ks;
+    state = 0;
+    stateChange = 1;
+  }
+
+  /**
+   * Get the visual content associated with this Sprite (required by Sprite)
+   */
+  public TransformableContent getContent()
+  {
+    return contents[state];
   }
 
   @Override
   public void keyPressed(KeyEvent e)
   {
+
+    state += stateChange;
+    if (state == 1)
+      stateChange = -1;
+    else if (state == 0)
+      stateChange = 1;
 
     switch (e.getKeyCode())
     {
@@ -80,6 +101,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
     i = antagonists.iterator();
     while (i.hasNext())
     {
+      speed += 0.5;
       paddock = i.next();
 
       if (intersects(paddock))

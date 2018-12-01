@@ -45,7 +45,7 @@ public class Sheep extends RuleBasedSprite
     while (i.hasNext())
     {
       bernstein = i.next();
-      killSub -= 2.3;
+      killSub -= 2.0;
 
       if (intersects(bernstein))
       {

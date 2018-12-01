@@ -58,7 +58,7 @@ public class FallingCharacter extends AbstractSprite
     color = Color.white;// Color.GREEN;
 
     chars = new char[6];
-    chars[0] = 'Y';// (char)(33 + rng.nextInt(95));
+    chars[0] = 'Y';
     chars[1] = 'O';
     chars[2] = 'U';
     chars[3] = 'W';
@@ -67,9 +67,10 @@ public class FallingCharacter extends AbstractSprite
 
     left = rng.nextInt(COLUMNS) * maxX;
     baseline = rng.nextInt(12) * -10.0;
+    // System.out.println(baseline);
     speed = rng.nextInt(6) + 2.0;
 
-    alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0);
+    // alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0);
 
     setVisible(true);
   }
