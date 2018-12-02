@@ -66,10 +66,4 @@ public class Paddock extends RuleBasedSprite
   {
     return y;
   }
-
-  protected void updateLocation(int x, int y)
-  {
-    setLocation(x, y);
-  }
-
 }
