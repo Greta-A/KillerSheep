@@ -17,7 +17,7 @@ public class Sheep extends RuleBasedSprite
   protected double speed;
   protected double x, y;
   // controls the speed at which the sheep follow Bernstein
-  protected double killSub = 300;
+  protected double killSub = 335;
   protected KillerSheep ks;
   protected Bernstein b;
 

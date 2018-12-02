@@ -50,6 +50,8 @@ public class KillerSheep extends JApplication implements ActionListener
   private Content paddock;
   private Content grass;
   private Content ksmenu;
+  private Content youWin;
+  private Content youLose;
   private Bernstein b;
   private Sheep sh;
   private Paddock p;
@@ -97,6 +99,16 @@ public class KillerSheep extends JApplication implements ActionListener
     }
 
   }
+  
+  /**
+   * main entry point into KillerSheep program, sets up dimensions. 
+   * @param args command line arguments
+   */
+  public static void main(String[] args)
+  {
+    KillerSheep app = new KillerSheep(1200, 700);
+    invokeInEventDispatchThread(app);
+  }
 
   /**
    * init: initialization method required for JApplication; sets up the stage and contentPane; 
@@ -124,16 +136,6 @@ public class KillerSheep extends JApplication implements ActionListener
     contentPane.add(start);
     stage.start();
     stage.stop();
-  }
-
-  /**
-   * main entry point into KillerSheep program, sets up dimensions. 
-   * @param args command line arguments
-   */
-  public static void main(String[] args)
-  {
-    KillerSheep app = new KillerSheep(1200, 700);
-    invokeInEventDispatchThread(app);
   }
 
   /**
@@ -204,9 +206,13 @@ public class KillerSheep extends JApplication implements ActionListener
     sheep = factory.createContent(sheepImage, 4, false);
     sh = new Sheep(sheep, 0, p.getX() + 50, 0.0, this, b);
     sh.setScale(0.5);
-
+    
     stage.add(sh);
     stage.add(b);
+    
+    youWin = factory.createContent("YouWin.png", 4, false);
+    youWin.setLocation(450, 250);
+    stage.add(youWin);
 
     pause.setVisible(false);
     resume.setVisible(false);
@@ -247,6 +253,10 @@ public class KillerSheep extends JApplication implements ActionListener
     b = new Bernstein(b2, 0, x, y, this);
 
     stage.add(b);
+    youLose = factory.createContent("YouLose.png", 4, false);
+    youLose.setLocation(450, 250);
+    stage.add(youLose);
+
 
     contentPane.add(replayButton);
   }
@@ -282,7 +292,7 @@ public class KillerSheep extends JApplication implements ActionListener
       bernstein[0] = factory.createContent(images[0]);
       bernstein[1] = factory.createContent(images[1]);
       b = new Bernstein(bernstein, 10, 370, 450, this);
-
+      
       // Fix start button issues
       contentPane.setFocusable(true);
       contentPane.requestFocus();
@@ -300,7 +310,7 @@ public class KillerSheep extends JApplication implements ActionListener
 
       b.addAntagonist(p);
       sh.addAntagonist(b);
-
+      
       stage.add(b);
       stage.add(sh);
       stage.add(p);
@@ -335,6 +345,5 @@ public class KillerSheep extends JApplication implements ActionListener
       contentPane.requestFocusInWindow();
       stage.getMetronome().start();
     }
-
   }
 }
