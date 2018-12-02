@@ -10,9 +10,10 @@ import visual.statik.sampled.TransformableContent;
 
 /**
  * Bernstein: Sprite class for the player (Bernstein).
+ * 
  * @author Greta, Rain, Joelle
  *
- * We abide by the JMU Honor Code
+ *         We abide by the JMU Honor Code
  */
 public class Bernstein extends RuleBasedSprite implements KeyListener
 {
@@ -24,14 +25,19 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   protected TransformableContent[] contents;
 
   /**
-   * Bernstein: constructor that creates the Bernstein object, its location 
-   *   and its state.
-   * @param contents the array of image contents that comprise the Bernstein sprite
-   * @param speed the speed of the Bernstein player
-   * @param x the initial location on the x-axis
-   * @param y the initial location on the y-axis
-   * @param ks the KillerSheep class object which allows the method to access 
-   *   the KillerSheep variables
+   * Bernstein: constructor that creates the Bernstein object, its location and its state.
+   * 
+   * @param contents
+   *          the array of image contents that comprise the Bernstein sprite
+   * @param speed
+   *          the speed of the Bernstein player
+   * @param x
+   *          the initial location on the x-axis
+   * @param y
+   *          the initial location on the y-axis
+   * @param ks
+   *          the KillerSheep class object which allows the method to access the KillerSheep
+   *          variables
    */
   public Bernstein(TransformableContent contents[], double speed, double x, double y,
       KillerSheep ks)
@@ -51,6 +57,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
 
   /**
    * Get the visual content associated with this Sprite (required by Sprite).
+   * 
    * @return the array of content
    */
   public TransformableContent getContent()
@@ -59,48 +66,49 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   }
 
   /**
-   * keyPressed: required by KeyListener, updates Bernstein's location, state, and speed 
-   *   based on user input.
+   * keyPressed: required by KeyListener, updates Bernstein's location, state, and speed based on
+   * user input.
    */
   @Override
   public void keyPressed(KeyEvent e)
   {
+
     switch (e.getKeyCode())
     {
       case KeyEvent.VK_UP:
         y -= speed;
         setLocation(x, y);
-        stateChange();
         break;
       case KeyEvent.VK_DOWN:
         y += speed;
         setLocation(x, y);
-        stateChange();
         break;
       case KeyEvent.VK_LEFT:
         x -= speed;
         setLocation(x, y);
-        stateChange();
         break;
       case KeyEvent.VK_RIGHT:
         x += speed;
         setLocation(x, y);
-        stateChange();
         break;
       default:
-    	  break;
+        break;
     }
 
     // disallow player from going out of bounds
-    if (x < 0) x = 40;
-    if (x > 1100) x = 1000;
-    if (y < 0) y = 6.0;
-    if (y > 455) y = 420;
+    if (x < 0)
+      x = 40;
+    if (x > 1100)
+      x = 1000;
+    if (y < 0)
+      y = 6.0;
+    if (y > 455)
+      y = 420;
   }
 
   /**
-   * stateChange: helper method that changes the state of the image of the Bernstein player;
-   *   called during a KeyPress to avoid issues with metronome.
+   * stateChange: helper method that changes the state of the image of the Bernstein player; called
+   * during a KeyPress to avoid issues with metronome.
    */
   public void stateChange()
   {
@@ -132,7 +140,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
 
       if (intersects(paddock))
       {
-    	  // invoke main class method to interact with contentPane and stage
+        // invoke main class method to interact with contentPane and stage
         ks.intersectWithPaddock();
       }
     }
@@ -152,10 +160,28 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
   @Override
   public void keyReleased(KeyEvent e)
   {
+    switch (e.getKeyCode())
+    {
+      case KeyEvent.VK_UP:
+        stateChange();
+        break;
+      case KeyEvent.VK_DOWN:
+        stateChange();
+        break;
+      case KeyEvent.VK_LEFT:
+        stateChange();
+        break;
+      case KeyEvent.VK_RIGHT:
+        stateChange();
+        break;
+      default:
+        break;
+    }
   }
 
   /**
    * getX: getter method to retrive x-axis location of Bernstein player.
+   * 
    * @return the value of the x location
    */
   public double getX()
@@ -165,6 +191,7 @@ public class Bernstein extends RuleBasedSprite implements KeyListener
 
   /**
    * getY: getter method to retrieve y-axis location of Bernstein player.
+   * 
    * @return the value of the y location
    */
   public double getY()
